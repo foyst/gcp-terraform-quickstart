@@ -38,10 +38,10 @@ resource "google_compute_route" "private_network_internet_route" {
 }
 
 resource "google_compute_instance" "vm_instance" {
-  name         = "cowsay-instance"
+  name         = "nginx-instance"
   machine_type = "f1-micro"
 
-  tags = ["cowsay-instance"]
+  tags = ["nginx-instance"]
 
   boot_disk {
     initialize_params {
@@ -147,7 +147,7 @@ resource "google_compute_forwarding_rule" "webservers-loadbalancer" {
 }
 
 resource "google_compute_firewall" "load_balancer_inbound" {
-  name    = "hello-world-load-balancer"
+  name    = "nginx-load-balancer"
   network = google_compute_network.vpc_network.self_link
 
   allow {
@@ -157,9 +157,8 @@ resource "google_compute_firewall" "load_balancer_inbound" {
 
   direction = "INGRESS"
   source_ranges = ["130.211.0.0/22", "35.191.0.0/16"]
-  target_tags = ["cowsay-instance"]
-}   
-
+  target_tags = ["nginx-instance"]
+}
 #TODO: Unmanaged Instance Group
 #TODO: Health Check Rule
 #TODO: Load Balancer Backend Service
