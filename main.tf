@@ -5,7 +5,7 @@ locals {
 provider "google" {
   project = local.project_id
   region  = "us-central1"
-  zone    = "us-central1-c"
+  zone    = "us-central1-b"
 }
 
 resource "google_project_service" "compute_service" {
@@ -25,7 +25,6 @@ resource "google_compute_network" "vpc_network" {
 resource "google_compute_subnetwork" "private_network" {
   name          = "private-network"
   ip_cidr_range = "10.2.0.0/16"
-  region        = "us-central1"
   network       = google_compute_network.vpc_network.self_link
 }
 
@@ -120,10 +119,6 @@ EOT
 #   target_tags = ["nginx-instance"]
 # }
 
-  direction = "INGRESS"
-  source_ranges = ["0.0.0.0/0"]
-  target_tags = ["cowsay-instance"]
-}
 
 resource "google_compute_instance_group" "webservers" {
   name        = "terraform-webservers"
@@ -212,7 +207,3 @@ resource "google_compute_firewall" "load_balancer_inbound" {
   source_ranges = ["130.211.0.0/22", "35.191.0.0/16"]
   target_tags = ["nginx-instance"]
 }
-#TODO: Unmanaged Instance Group
-#TODO: Health Check Rule
-#TODO: Load Balancer Backend Service
-#TODO: External HTTP Load Balancer
