@@ -1,5 +1,9 @@
+variable "project_id" {
+    type = string
+}
+
 locals {
-  project_id = "fluid-amulet-309713"
+  project_id = var.project_id
 }
 
 provider "google" {
