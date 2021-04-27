@@ -159,7 +159,7 @@ resource "google_compute_firewall" "load_balancer_inbound" {
 
   allow {
     protocol = "tcp"
-    # ports    = ["22"] //Whatever the docker container is listening on - needs specifying
+    ports    = ["8080"]
   }
 
   direction = "INGRESS"
